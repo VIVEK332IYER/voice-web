@@ -182,7 +182,7 @@ export default class AudioWeb {
 
   start(): Promise<void> {
     if (!this.isReady()) {
-      console.error('Cannot record audio before microhphone is ready.');
+      alert('Cannot record audio before microhphone is ready.');
       return Promise.resolve();
     }
 
@@ -222,7 +222,7 @@ export default class AudioWeb {
 
   stop(): Promise<AudioInfo> {
     if (!this.isReady()) {
-      console.error('Cannot stop audio before microphone is ready.');
+      alert('Cannot stop audio before microphone is ready.');
       return Promise.reject();
     }
 
