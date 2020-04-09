@@ -142,7 +142,7 @@ export default class AudioWeb {
     }
 
     const microphone = await this.getMicrophone();
-
+    alert('got mic.');
     this.microphone = microphone;
     var audioContext = new (window.AudioContext || window.webkitAudioContext)();
     var sourceNode = audioContext.createMediaStreamSource(microphone);
@@ -155,14 +155,17 @@ export default class AudioWeb {
     volumeNode.channelCount = 1;
     analyzerNode.channelCount = 1;
     outputNode.channelCount = 1;
+    alert('set up some nodes.');
 
     // Connect the nodes together
     sourceNode.connect(volumeNode);
     volumeNode.connect(analyzerNode);
     analyzerNode.connect(outputNode);
+    alert('connected the nodes');
 
     // and set up the recorder.
     this.recorder = new MediaRecorder(outputNode.stream);
+    alert('created a MediaRecorder.');
 
     // Set up the analyzer node, and allocate an array for its data
     // FFT size 64 gives us 32 bins. But those bins hold frequencies up to
@@ -171,10 +174,12 @@ export default class AudioWeb {
     analyzerNode.fftSize = 128;
     analyzerNode.smoothingTimeConstant = 0.96;
     this.frequencyBins = new Uint8Array(analyzerNode.frequencyBinCount);
+    alert('creating the visualizer.');
 
     // Setup audio visualizer.
     this.jsNode = audioContext.createScriptProcessor(256, 1, 1);
     this.jsNode.connect(audioContext.destination);
+    alert('created the visualizer.');
 
     this.analyzerNode = analyzerNode;
     this.audioContext = audioContext;
@@ -182,7 +187,7 @@ export default class AudioWeb {
 
   start(): Promise<void> {
     if (!this.isReady()) {
-      console.error('Cannot record audio before microhphone is ready.');
+      alert('Cannot record audio before microhphone is ready.');
       return Promise.resolve();
     }
 
@@ -222,7 +227,7 @@ export default class AudioWeb {
 
   stop(): Promise<AudioInfo> {
     if (!this.isReady()) {
-      console.error('Cannot stop audio before microphone is ready.');
+      alert('Cannot stop audio before microphone is ready.');
       return Promise.reject();
     }
 
