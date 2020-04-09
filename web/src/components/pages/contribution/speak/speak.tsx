@@ -328,6 +328,7 @@ class SpeakPage extends React.Component<Props, State> {
   };
 
   private handleRecordClick = async () => {
+    alert('record clicked.');
     if (this.state.recordingStatus === 'waiting') return;
     const isRecording = this.isRecording;
 
@@ -339,7 +340,9 @@ class SpeakPage extends React.Component<Props, State> {
     }
 
     try {
+      alert('initializing audio.');
       await this.audio.init();
+      alert('audio initialized.');
       await this.startRecording();
     } catch (err) {
       if (err in AudioError) {
@@ -352,7 +355,9 @@ class SpeakPage extends React.Component<Props, State> {
 
   private startRecording = async () => {
     try {
+      alert('starting audio.');
       await this.audio.start();
+      alert('audio started.');
       this.maxVolume = 0;
       this.recordingStartTime = Date.now();
       this.recordingStopTime = 0;
@@ -361,6 +366,7 @@ class SpeakPage extends React.Component<Props, State> {
         error: null,
       });
     } catch (err) {
+      alert(`starting audio failed: ${err}.`);
       this.setState({
         recordingStatus: null,
       });
@@ -370,7 +376,9 @@ class SpeakPage extends React.Component<Props, State> {
   private saveRecording = () => {
     const RECORD_STOP_DELAY = 500;
     setTimeout(async () => {
+      alert('stopping audio.');
       const info = await this.audio.stop();
+      alert('audio stopped.');
       this.processRecording(info);
     }, RECORD_STOP_DELAY);
     this.recordingStopTime = Date.now();
@@ -381,7 +389,9 @@ class SpeakPage extends React.Component<Props, State> {
 
   private discardRecording = async () => {
     if (!this.isRecording) return;
+    alert('stopping audio from discard.');
     await this.audio.stop();
+    alert('audio stopped from discard.');
     this.setState({ recordingStatus: null });
   };
 
@@ -419,6 +429,7 @@ class SpeakPage extends React.Component<Props, State> {
       refreshUser,
     } = this.props;
 
+    alert('attempting upload.');
     if (!hasAgreed && !(user.privacyAgreed || user.account)) {
       this.setState({ showPrivacyModal: true });
       return false;
@@ -500,6 +511,7 @@ class SpeakPage extends React.Component<Props, State> {
         }
       }),
       async () => {
+        alert('uploaded.');
         trackRecording('submit', locale);
         refreshUser();
         addNotification(
