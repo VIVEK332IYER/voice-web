@@ -25,15 +25,14 @@ import Modal, { ModalButtons } from '../../../modal/modal';
 import TermsModal from '../../../terms-modal';
 import {
   CheckIcon,
-  FontIcon,
   MicIcon,
   StopIcon,
   ArrowRight,
   FirefoxColor,
   ChromeColor,
 } from '../../../ui/icons';
-import { Button, TextButton, StyledLink, LinkButton } from '../../../ui/ui';
-import { getItunesURL, isFirefoxFocus, isNativeIOS } from '../../../../utility';
+import { Button, TextButton, LinkButton } from '../../../ui/ui';
+import { isFirefoxFocus, isNativeIOS } from '../../../../utility';
 import ContributionPage, {
   ContributionPillProps,
   SET_COUNT,
@@ -69,10 +68,18 @@ const UnsupportedInfo = () => (
         </Localized>
       </p>
       <div>
-        <a rel="noopener noreferrer" target="_blank" href="https://www.firefox.com/" title="Firefox">
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          href="https://www.firefox.com/"
+          title="Firefox">
           <FirefoxColor />
         </a>{' '}
-        <a rel="noopener noreferrer" target="_blank" href="https://www.google.com/chrome" title="Chrome">
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          href="https://www.google.com/chrome"
+          title="Chrome">
           <ChromeColor />
         </a>
       </div>
@@ -330,7 +337,6 @@ class SpeakPage extends React.Component<Props, State> {
       this.recordingStartTime = Date.now();
       this.recordingStopTime = 0;
       this.setState({
-        // showSubmitSuccess: false,
         recordingStatus: 'recording',
         error: null,
       });
@@ -365,7 +371,7 @@ class SpeakPage extends React.Component<Props, State> {
   };
 
   private handleSkip = async () => {
-    const { api, removeSentences, sentences } = this.props;
+    const { api, removeSentences } = this.props;
     const { clips } = this.state;
     await this.discardRecording();
     const current = this.getRecordingIndex();
