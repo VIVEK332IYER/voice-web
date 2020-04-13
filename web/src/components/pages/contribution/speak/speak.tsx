@@ -304,16 +304,16 @@ class SpeakPage extends React.Component<Props, State> {
     if (length > MAX_RECORDING_MS) {
       return RecordingError.TOO_LONG;
     }
-    if (this.maxVolume < MIN_VOLUME) {
+    // iOS has a buggy getByteFrequencyData implementation, so we suppress
+    // volume errors on that platform.
+    if (this.maxVolume < MIN_VOLUME && !isIOS()) {
       return RecordingError.TOO_QUIET;
     }
     return null;
   };
 
   private updateVolume = (volume: number) => {
-    // For some reason, volume is always exactly 100 at the end of the
-    // recording, even if it is silent; so ignore that.
-    if (volume !== 100 && volume > this.maxVolume) {
+    if (volume > this.maxVolume) {
       this.maxVolume = volume;
     }
   };
