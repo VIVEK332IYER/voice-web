@@ -300,6 +300,7 @@ class SpeakPage extends React.Component<Props, State> {
     if (length > MAX_RECORDING_MS) {
       return RecordingError.TOO_LONG;
     }
+    if (isIOS()) alert('maxVolume is ' + this.maxVolume);
     if (this.maxVolume < MIN_VOLUME) {
       return RecordingError.TOO_QUIET;
     }
@@ -413,6 +414,7 @@ class SpeakPage extends React.Component<Props, State> {
       refreshUser,
     } = this.props;
 
+    alert('attempting upload');
     if (!hasAgreed && !(user.privacyAgreed || user.account)) {
       this.setState({ showPrivacyModal: true });
       return false;
@@ -494,6 +496,7 @@ class SpeakPage extends React.Component<Props, State> {
         }
       }),
       async () => {
+        alert('uploaded');
         trackRecording('submit', locale);
         refreshUser();
         addNotification(
