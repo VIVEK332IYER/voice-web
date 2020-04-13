@@ -306,8 +306,9 @@ class SpeakPage extends React.Component<Props, State> {
     }
     // iOS has a buggy getByteFrequencyData implementation, so we suppress
     // volume errors on that platform.
-    if (this.maxVolume < MIN_VOLUME && !isIOS()) {
-      return RecordingError.TOO_QUIET;
+    if (this.maxVolume < MIN_VOLUME) {
+      if (isIOS()) alert('maxVolume is ' + this.maxVolume);
+      else return RecordingError.TOO_QUIET;
     }
     return null;
   };
@@ -419,6 +420,7 @@ class SpeakPage extends React.Component<Props, State> {
       refreshUser,
     } = this.props;
 
+    alert('attempting upload');
     if (!hasAgreed && !(user.privacyAgreed || user.account)) {
       this.setState({ showPrivacyModal: true });
       return false;
@@ -500,6 +502,7 @@ class SpeakPage extends React.Component<Props, State> {
         }
       }),
       async () => {
+        alert('uploaded');
         trackRecording('submit', locale);
         refreshUser();
         addNotification(

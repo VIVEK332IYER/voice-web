@@ -47,9 +47,11 @@ function RecordingPill({
     let nextIsPlaying = !isPlaying;
     if (nextIsPlaying) {
       trackRecording('listen', locale);
+      alert('playing');
       audio.play();
     } else {
       audio.pause();
+      alert('stopping');
       audio.currentTime = 0;
     }
     setIsPlaying(nextIsPlaying);
